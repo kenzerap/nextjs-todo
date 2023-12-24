@@ -1,0 +1,11 @@
+.navBar {
+  background-color: #9992c1;
+}
+
+.linkActive {
+  color: rgb(14 116 144);
+}
+
+.link:hover {
+  color: rgb(14 116 144);
+}
