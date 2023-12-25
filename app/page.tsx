@@ -1,3 +1,5 @@
+'use client';
+
 import HeaderBar from '@/components/HeaderBar/HeaderBar';
 import { Card, Carousel } from 'flowbite-react';
 import Image from 'next/image';
