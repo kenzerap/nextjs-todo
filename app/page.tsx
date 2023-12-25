@@ -6,13 +6,13 @@ import classes from './Home.module.css';
 
 export default function Home() {
   const images = [
-    'https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_.jpg',
-    'https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg',
-    'https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg',
-    'https://fakestoreapi.com/img/51Y5NI-I5jL._AC_UX679_.jpg',
-    'https://fakestoreapi.com/img/81XH0e8fefL._AC_UY879_.jpg',
-    'https://fakestoreapi.com/img/71HblAHs5xL._AC_UY879_-2.jpg',
-    'https://fakestoreapi.com/img/71z3kpMAYsL._AC_UY879_.jpg',
+    'https://cdn.chanhtuoi.com/uploads/2022/12/mau-background-noel-dep-mung-giang-sinh-2022-1670901526.jpg',
+    'https://images.wallpaperscraft.com/image/single/christmas_tree_garland_street_68906_3450x2250.jpg',
+    'https://w.wallhaven.cc/full/o5/wallhaven-o5762l.png',
+    'https://cdn.pixabay.com/photo/2012/04/13/01/23/moon-31665_1280.png',
+    'https://images.pexels.com/photos/980859/pexels-photo-980859.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    'https://treobangron.com.vn/wp-content/uploads/2022/11/background-noel-giang-sinh-4-2.jpg',
+    'https://www.tnmt.edu.vn/wp-content/uploads/2023/11/hinh-nen-powerpoint-giang-sinh-2.jpg',
   ];
 
   return (
@@ -20,7 +20,7 @@ export default function Home() {
       <HeaderBar></HeaderBar>
       <Card className={classes.cardbar}>
         <h3 className="text-center text-7xl mt-8 mb-8">
-          Welcome to ReactPee shop
+          Welcome to NextPee shop
         </h3>
 
         <Carousel slideInterval={2000}>

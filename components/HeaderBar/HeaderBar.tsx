@@ -29,7 +29,7 @@ export default function HeaderBar() {
         />
 
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-          ReactPee
+          NextPee
         </span>
       </Navbar.Brand>
       <div className="flex md:order-2">

@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  Button,
-  Card,
-  Spinner,
-  Table,
-} from 'flowbite-react';
+import { Button, Card, Spinner, Table } from 'flowbite-react';
 import classes from './ProductList.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -69,7 +64,9 @@ export default function ProductList({ products }: { products: Product[] }) {
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {product.name}
                     </Table.Cell>
-                    <Table.Cell>{product.price}$</Table.Cell>
+                    <Table.Cell className="text-red-600 font-bold text-xl">
+                      {product.price}$
+                    </Table.Cell>
                     <Table.Cell>
                       <div className="w-60 h-60 relative">
                         <Image
