@@ -78,7 +78,7 @@ export default function ProductCreateEditForm({
       {(formik) => {
         const { errors, touched, isValid } = formik;
         return (
-          <Fragment>
+          <div className={classes.layout}>
             <div className="text-2xl font-bold mb-8	">{text} product</div>
             <Card>
               <Form>
@@ -167,7 +167,7 @@ export default function ProductCreateEditForm({
                 </div>
               </Form>
             </Card>
-          </Fragment>
+          </div>
         );
       }}
     </Formik>

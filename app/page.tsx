@@ -20,8 +20,8 @@ export default function Home() {
   return (
     <Fragment>
       <HeaderBar></HeaderBar>
-      <Card className={classes.cardbar}>
-        <h3 className="text-center text-7xl mt-8 mb-8">
+      <Card className={`${classes.cardbar} mx-8 mt-8`}>
+        <h3 className="text-center text-5xl mt-4 mb-4">
           Welcome to NextPee shop
         </h3>
 
