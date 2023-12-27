@@ -1,0 +1,7 @@
+.itemNumber {
+  top: -1rem;
+}
+
+.cartIcon:hover {
+  cursor: pointer;
+}

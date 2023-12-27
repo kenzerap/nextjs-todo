@@ -1,20 +1,18 @@
 'use client';
 
-import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react';
+import { Button, Navbar } from 'flowbite-react';
 import classes from './HeaderBar.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { UserButton, SignInButton, useUser } from '@clerk/nextjs';
+import CartShopping from '../CartShopping/CartShopping';
 
 export default function HeaderBar() {
-  const userInfo: any = null;
   const pathname = usePathname();
-  const router = useRouter();
+  const { isSignedIn, user } = useUser();
 
-  const logOutHandeler = () => {
-    // dispatch(logout());
-    router.push('/');
-  };
+  const isAdmin = user?.publicMetadata.role === 'admin';
 
   return (
     <Navbar fluid className={classes.navBar}>
@@ -33,26 +31,16 @@ export default function HeaderBar() {
         </span>
       </Navbar.Brand>
       <div className="flex md:order-2">
-        {userInfo ? (
-          <Dropdown
-            arrowIcon={false}
-            inline
-            label={<Avatar alt="User settings" rounded />}
-          >
-            <Dropdown.Header>
-              <span className="block text-sm">{userInfo.name}</span>
-              <span className="block truncate text-sm font-medium">
-                {userInfo.email}
-              </span>
-            </Dropdown.Header>
-            <Dropdown.Item>Edit profile</Dropdown.Item>
-            <Dropdown.Divider />
-            <Dropdown.Item onClick={logOutHandeler}>Sign out</Dropdown.Item>
-          </Dropdown>
+        <div className="mr-8">
+          <CartShopping selectedItem={0}></CartShopping>
+        </div>
+
+        {isSignedIn ? (
+          <UserButton afterSignOutUrl="/" />
         ) : (
-          <Link href={'/login'}>
+          <SignInButton>
             <Button type="button">Login</Button>
-          </Link>
+          </SignInButton>
         )}
 
         <Navbar.Toggle />
@@ -74,6 +62,16 @@ export default function HeaderBar() {
         >
           Products
         </Link>
+        {isAdmin && (
+          <Link
+            href={'/users'}
+            className={`${classes.link} ${
+              pathname.includes('/users') ? classes.linkActive : ''
+            }`}
+          >
+            Users
+          </Link>
+        )}
       </Navbar.Collapse>
     </Navbar>
   );

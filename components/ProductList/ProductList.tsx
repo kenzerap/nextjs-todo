@@ -7,10 +7,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
 import { Product } from '@/models/product.model';
+import { useUser } from '@clerk/nextjs';
 
 export default function ProductList({ products }: { products: Product[] }) {
   const [deleting, setDeleting] = useState(false);
   const router = useRouter();
+  const { isSignedIn, isLoaded, user } = useUser();
   const productsLoading = false;
 
   const deleteProductHandler = async (productId: any) => {
@@ -29,13 +31,47 @@ export default function ProductList({ products }: { products: Product[] }) {
     }
   };
 
+  const addToCard = (product: Product) => {
+    console.log('addToCard: ', product);
+    console.log('user: ', user);
+    // dispatch(addToCart({ item: product }));
+  };
+
+  const adminAdtions = (product: Product) => (
+    <>
+      <Link
+        href={`/products/${product.id}`}
+        className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+      >
+        Edit
+      </Link>
+      <Link
+        href={''}
+        onClick={() => deleteProductHandler(product.id)}
+        className={`font-medium text-cyan-600 hover:underline dark:text-cyan-500 ml-4 ${
+          deleting ? classes.disabled : ''
+        }`}
+      >
+        Delete
+      </Link>
+    </>
+  );
+
+  const userAdtions = (product: Product) => (
+    <Button onClick={() => addToCard(product)} className="w-max">
+      Add to cart
+    </Button>
+  );
+
   return (
     <Fragment>
       <div className="flex justify-between mb-8">
         <div className="text-2xl font-bold">Product list</div>
-        <Link href={'/products/create'}>
-          <Button>Create</Button>
-        </Link>
+        {isLoaded && isSignedIn && (
+          <Link href={'/products/create'}>
+            <Button>Create</Button>
+          </Link>
+        )}
       </div>
 
       <Card className="overflow-x-auto">
@@ -79,21 +115,13 @@ export default function ProductList({ products }: { products: Product[] }) {
                     </Table.Cell>
                     <Table.Cell>{product.description}</Table.Cell>
                     <Table.Cell>
-                      <Link
-                        href={`/products/${product.id}`}
-                        className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                      >
-                        Edit
-                      </Link>
-                      <Link
-                        href={''}
-                        onClick={() => deleteProductHandler(product.id)}
-                        className={`font-medium text-cyan-600 hover:underline dark:text-cyan-500 ml-4 ${
-                          deleting ? classes.disabled : ''
-                        }`}
-                      >
-                        Delete
-                      </Link>
+                      {!isLoaded ? (
+                        <Spinner></Spinner>
+                      ) : isSignedIn ? (
+                        adminAdtions(product)
+                      ) : (
+                        userAdtions(product)
+                      )}
                     </Table.Cell>
                   </Table.Row>
                 );
