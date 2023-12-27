@@ -13,6 +13,8 @@ export default function ProductList({ products }: { products: Product[] }) {
   const [deleting, setDeleting] = useState(false);
   const router = useRouter();
   const { isSignedIn, isLoaded, user } = useUser();
+
+  const isAdmin = user?.publicMetadata.role === 'admin';
   const productsLoading = false;
 
   const deleteProductHandler = async (productId: any) => {
@@ -67,7 +69,7 @@ export default function ProductList({ products }: { products: Product[] }) {
     <Fragment>
       <div className="flex justify-between mb-8">
         <div className="text-2xl font-bold">Product list</div>
-        {isLoaded && isSignedIn && (
+        {isLoaded && isAdmin && (
           <Link href={'/products/create'}>
             <Button>Create</Button>
           </Link>
@@ -117,7 +119,7 @@ export default function ProductList({ products }: { products: Product[] }) {
                     <Table.Cell>
                       {!isLoaded ? (
                         <Spinner></Spinner>
-                      ) : isSignedIn ? (
+                      ) : isAdmin ? (
                         adminAdtions(product)
                       ) : (
                         userAdtions(product)
