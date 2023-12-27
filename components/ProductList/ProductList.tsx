@@ -64,7 +64,7 @@ export default function ProductList({ products }: { products: Product[] }) {
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white text-2xl">
                       {product.name}
                     </Table.Cell>
-                    <Table.Cell className="text-red-600 font-bold text-xl">
+                    <Table.Cell className="text-green-500 font-bold text-xl">
                       {product.price}$
                     </Table.Cell>
                     <Table.Cell>
