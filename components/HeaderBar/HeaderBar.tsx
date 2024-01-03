@@ -1,18 +1,19 @@
 'use client';
 
-import { Button, Navbar } from 'flowbite-react';
+import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react';
 import classes from './HeaderBar.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { UserButton, SignInButton, useUser } from '@clerk/nextjs';
 import CartShopping from '../CartShopping/CartShopping';
+import { useSession, signOut, signIn } from 'next-auth/react';
 
 export default function HeaderBar() {
   const pathname = usePathname();
-  const { isSignedIn, user } = useUser();
+  const { data: session, status } = useSession();
 
-  const isAdmin = user?.publicMetadata.role === 'admin';
+  const isSignedIn = status === 'authenticated';
+  const isAdmin = session?.user?.isAdmin;
 
   return (
     <Navbar fluid className={classes.navBar}>
@@ -35,12 +36,30 @@ export default function HeaderBar() {
           <CartShopping selectedItem={0}></CartShopping>
         </div>
 
-        {isSignedIn ? (
-          <UserButton afterSignOutUrl="/" />
+        {isSignedIn && session ? (
+          <Dropdown
+            arrowIcon={false}
+            inline
+            label={<Avatar alt="User settings" rounded />}
+          >
+            <Dropdown.Header>
+              <span className="block text-sm">{session.user?.name}</span>
+              <span className="block truncate text-sm font-medium">
+                {session.user?.email}
+              </span>
+            </Dropdown.Header>
+            <Dropdown.Item>
+              <Link href={`/users/${session.user?.id}`}>View profile</Link>
+            </Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item onClick={() => signOut({ callbackUrl: '/' })}>
+              Sign out
+            </Dropdown.Item>
+          </Dropdown>
         ) : (
-          <SignInButton>
-            <Button type="button">Login</Button>
-          </SignInButton>
+          <Button type="button" onClick={() => signIn()}>
+            Login
+          </Button>
         )}
 
         <Navbar.Toggle />

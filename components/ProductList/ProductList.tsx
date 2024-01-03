@@ -7,14 +7,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
 import { Product } from '@/models/product.model';
-import { useUser } from '@clerk/nextjs';
+import { useSession } from 'next-auth/react';
 
 export default function ProductList({ products }: { products: Product[] }) {
   const [deleting, setDeleting] = useState(false);
   const router = useRouter();
-  const { isSignedIn, isLoaded, user } = useUser();
 
-  const isAdmin = user?.publicMetadata.role === 'admin';
+  const { data: session } = useSession();
+  const isAdmin = session?.user.isAdmin;
+
   const productsLoading = false;
 
   const deleteProductHandler = async (productId: any) => {
@@ -35,8 +36,6 @@ export default function ProductList({ products }: { products: Product[] }) {
 
   const addToCard = (product: Product) => {
     console.log('addToCard: ', product);
-    console.log('user: ', user);
-    // dispatch(addToCart({ item: product }));
   };
 
   const adminAdtions = (product: Product) => (
@@ -69,7 +68,7 @@ export default function ProductList({ products }: { products: Product[] }) {
     <Fragment>
       <div className="flex justify-between mb-8">
         <div className="text-2xl font-bold">Product list</div>
-        {isLoaded && isAdmin && (
+        {isAdmin && (
           <Link href={'/products/create'}>
             <Button>Create</Button>
           </Link>
@@ -117,13 +116,7 @@ export default function ProductList({ products }: { products: Product[] }) {
                     </Table.Cell>
                     <Table.Cell>{product.description}</Table.Cell>
                     <Table.Cell>
-                      {!isLoaded ? (
-                        <Spinner></Spinner>
-                      ) : isAdmin ? (
-                        adminAdtions(product)
-                      ) : (
-                        userAdtions(product)
-                      )}
+                      {isAdmin ? adminAdtions(product) : userAdtions(product)}
                     </Table.Cell>
                   </Table.Row>
                 );
