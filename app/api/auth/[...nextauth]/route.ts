@@ -3,7 +3,7 @@ import { apiUrl } from '@/utils/constants';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-export const handler = NextAuth({
+const handler = NextAuth({
   secret: process.env.AUTH_SECRET,
   pages: {
     signIn: '/login',
