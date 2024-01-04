@@ -48,9 +48,9 @@ export default function HeaderBar() {
                 {session.user?.email}
               </span>
             </Dropdown.Header>
-            <Dropdown.Item>
-              <Link href={`/users/${session.user?.id}`}>View profile</Link>
-            </Dropdown.Item>
+            <Link href={`/users/${session.user?.id}`}>
+              <Dropdown.Item>View profile</Dropdown.Item>
+            </Link>
             <Dropdown.Divider />
             <Dropdown.Item onClick={() => signOut({ callbackUrl: '/' })}>
               Sign out

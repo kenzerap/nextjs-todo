@@ -5,8 +5,10 @@ import { Button, Card, Label, Spinner, TextInput } from 'flowbite-react';
 import { ErrorMessage, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function SignUp() {
+  const router = useRouter();
   const [initialValues] = useState<{
     email: string;
     password: string;
@@ -23,7 +25,7 @@ export default function SignUp() {
     address: '',
   });
 
-  const loading: boolean = false;
+  const [loading, setLoading] = useState(false);
 
   const signupFormSchema = Yup.object().shape({
     email: Yup.string().email().required('This field is required'),
@@ -41,8 +43,34 @@ export default function SignUp() {
     address: Yup.string(),
   });
 
-  const submitForm = (data: any) => {
+  const submitForm = async (data: any) => {
     console.log('data: ', data);
+
+    const url = '/api/users/signup';
+    const method = 'POST';
+    const bodyData = {
+      email: data.email,
+      password: data.password,
+      name: data.name,
+      phone: data.phone,
+      address: data.address,
+    };
+
+    setLoading(true);
+    const res = await fetch(url, {
+      method: method,
+      body: JSON.stringify(bodyData),
+    });
+
+    setLoading(false);
+
+    const resBody = await res.json();
+
+    if (res.ok) {
+      router.replace('/login');
+    }
+
+    console.log('error: ', resBody.message);
   };
 
   return (

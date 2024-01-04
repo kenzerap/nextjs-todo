@@ -16,7 +16,11 @@ export async function PUT(
 
   const data = await response.json();
 
-  return NextResponse.json(data);
+  if (response.ok) {
+    return NextResponse.json(data);
+  }
+
+  return NextResponse.json(data, { status: response.status });
 }
 
 export async function DELETE(
@@ -32,5 +36,9 @@ export async function DELETE(
 
   const data = await response.json();
 
-  return NextResponse.json(data);
+  if (response.ok) {
+    return NextResponse.json(data);
+  }
+
+  return NextResponse.json(data, { status: response.status });
 }

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   const requestJson = await request.json();
-  const response = await fetch(`${apiUrl}/product`, {
+  const response = await fetch(`${apiUrl}/auth/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

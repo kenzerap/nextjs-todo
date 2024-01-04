@@ -1,16 +1,34 @@
 'use client';
 
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Card, Spinner, Table } from 'flowbite-react';
 import { User } from '../../models/user.model';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function UserList({ users }: { users: User[] }) {
+  const router = useRouter();
   const [deleting, setDeleting] = useState(false);
-  const loading = false;
 
-  const deleteUserHandler = (userId: string) => {
+  const deleteUserHandler = async (userId: string) => {
     console.log('deleteUserHandler: ', userId);
+    const url = `/api/users/${userId}`;
+    const method = 'DELETE';
+
+    setDeleting(true);
+    const res = await fetch(url, {
+      method: method,
+    });
+
+    setDeleting(false);
+
+    if (res.ok) {
+      router.replace('/users');
+    }
+
+    const data = await res.json();
+
+    console.log('data: ', data.message);
   };
 
   return (
@@ -21,7 +39,7 @@ export default function UserList({ users }: { users: User[] }) {
       </div>
 
       <Card className="overflow-x-auto">
-        {loading ? (
+        {!users ? (
           <div className="text-center">
             <Spinner />
           </div>

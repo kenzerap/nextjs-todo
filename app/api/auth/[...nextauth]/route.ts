@@ -1,9 +1,14 @@
 import { User } from '@/models/user.model';
 import { apiUrl } from '@/utils/constants';
-import NextAuth from 'next-auth';
+import {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from 'next';
+import NextAuth, { NextAuthOptions, getServerSession } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-const handler = NextAuth({
+const config = {
   secret: process.env.AUTH_SECRET,
   pages: {
     signIn: '/login',
@@ -44,7 +49,7 @@ const handler = NextAuth({
     async session({ session, user, token }) {
       const expiresDate = new Date();
       expiresDate.setHours(expiresDate.getHours() + 1);
-      session.expires = expiresDate.toUTCString();
+      session.expires = expiresDate.toISOString();
       return { ...session, user: token.user as User, token: token.token };
     },
     async jwt({ token, user, account, profile }) {
@@ -54,6 +59,17 @@ const handler = NextAuth({
       };
     },
   },
-});
+} satisfies NextAuthOptions;
+
+const handler = NextAuth(config);
 
 export { handler as GET, handler as POST };
+
+export function auth(
+  ...args:
+    | [GetServerSidePropsContext['req'], GetServerSidePropsContext['res']]
+    | [NextApiRequest, NextApiResponse]
+    | []
+) {
+  return getServerSession(...args, config);
+}

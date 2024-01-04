@@ -35,11 +35,12 @@ export default function Login() {
       redirect: false,
     });
 
-    console.log('res: ', res);
     setLoading(false);
 
     if (res?.ok) {
       router.push('/');
+    } else {
+      console.log('error: ', res);
     }
   };
 
