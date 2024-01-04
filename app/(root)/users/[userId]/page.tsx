@@ -1,9 +1,9 @@
-import { auth } from '@/app/api/auth/[...nextauth]/route';
 import RefreshToken from '@/components/RefreshToken/RefreshToken';
 import { User } from '@/models/user.model';
 import { apiUrl } from '@/utils/constants';
 import { Card } from 'flowbite-react';
 import classes from './UserDetail.module.css';
+import { auth } from '@/auth';
 
 async function fetchUserById(userId: string, token: string) {
   const response = await fetch(`${apiUrl}/user/${userId}`, {

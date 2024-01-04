@@ -1,6 +1,6 @@
+import { auth } from '@/auth';
 import { apiUrl } from '@/utils/constants';
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '../../auth/[...nextauth]/route';
 
 export async function DELETE(
   request: NextRequest,

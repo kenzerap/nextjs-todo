@@ -1,8 +1,8 @@
-import { auth } from '@/app/api/auth/[...nextauth]/route';
 import UserList from '@/components/UserList/UserList';
 import { User } from '@/models/user.model';
 import { apiUrl } from '@/utils/constants';
 import RefreshToken from '@/components/RefreshToken/RefreshToken';
+import { auth } from '@/auth';
 
 async function fetchUsers(token: string) {
   const response = await fetch(`${apiUrl}/user/list`, {
