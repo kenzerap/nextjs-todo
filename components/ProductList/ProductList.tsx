@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
 import { Product } from '@/models/product.model';
 import { useSession } from 'next-auth/react';
+import { toast } from 'sonner';
 
 export default function ProductList({ products }: { products: Product[] }) {
   const [deleting, setDeleting] = useState(false);
@@ -30,7 +31,11 @@ export default function ProductList({ products }: { products: Product[] }) {
     setDeleting(false);
 
     if (res.ok) {
+      toast.success('Delete successfully');
       router.replace('/products');
+    } else {
+      const resBody = await res.json();
+      toast.error(resBody?.message || resBody);
     }
   };
 

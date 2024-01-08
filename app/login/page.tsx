@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -40,7 +41,7 @@ export default function Login() {
     if (res?.ok) {
       router.push('/');
     } else {
-      console.log('error: ', res);
+      toast.error(res?.error);
     }
   };
 

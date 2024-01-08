@@ -3,6 +3,8 @@ import { User } from '@/models/user.model';
 import { apiUrl } from '@/utils/constants';
 import RefreshToken from '@/components/RefreshToken/RefreshToken';
 import { auth } from '@/auth';
+import { Suspense } from 'react';
+import { Spinner } from 'flowbite-react';
 
 async function fetchUsers(token: string) {
   const response = await fetch(`${apiUrl}/user/list`, {
@@ -29,7 +31,15 @@ const Users = async () => {
   return status === 401 ? (
     <RefreshToken></RefreshToken>
   ) : (
-    <UserList users={data}></UserList>
+    <Suspense
+      fallback={
+        <div className="text-center">
+          <Spinner />
+        </div>
+      }
+    >
+      <UserList users={data}></UserList>
+    </Suspense>
   );
 };
 export default Users;

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import { Product } from '../../models/product.model';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export default function ProductCreateEditForm({
   isCreate,
@@ -64,7 +65,12 @@ export default function ProductCreateEditForm({
     setIsLoading(false);
 
     if (res.ok) {
+      const message = isCreate ? 'Create successfully' : 'Update successfully';
+      toast.success(message);
       router.replace('/products');
+    } else {
+      const resBody = await res.json();
+      toast.error(resBody?.message || resBody);
     }
   };
 

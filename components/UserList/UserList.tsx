@@ -5,6 +5,7 @@ import { Card, Spinner, Table } from 'flowbite-react';
 import { User } from '../../models/user.model';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export default function UserList({ users }: { users: User[] }) {
   const router = useRouter();
@@ -23,12 +24,12 @@ export default function UserList({ users }: { users: User[] }) {
     setDeleting(false);
 
     if (res.ok) {
+      toast.success('Delete successfully');
       router.replace('/users');
+    } else {
+      const resBody = await res.json();
+      toast.error(resBody?.message || resBody);
     }
-
-    const data = await res.json();
-
-    console.log('data: ', data.message);
   };
 
   return (

@@ -1,43 +1,39 @@
 'use client';
 
 import React, { Fragment, useState } from 'react';
-import { Button, Card, Label, Spinner, TextInput } from 'flowbite-react';
+import {
+  Button,
+  Card,
+  Label,
+  Spinner,
+  TextInput,
+  Textarea,
+} from 'flowbite-react';
+import classes from './UserDetailEditForm.module.css';
 import { ErrorMessage, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { User } from '@/models/user.model';
 
-export default function SignUp() {
+export default function UserDetailEditForm({
+  userDetail,
+}: {
+  userDetail: User;
+}) {
   const router = useRouter();
   const [initialValues] = useState<{
     email: string;
-    password: string;
-    confirmPassword: string;
     name: string;
-    phone: string;
+    phone: number;
     address: string;
-  }>({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    name: '',
-    phone: '',
-    address: '',
-  });
+  }>({ ...userDetail });
 
   const [loading, setLoading] = useState(false);
 
-  const signupFormSchema = Yup.object().shape({
+  const editFormSchema = Yup.object().shape({
     email: Yup.string().email().required('This field is required'),
-
-    password: Yup.string()
-      .min(5, 'Password min length 5 characters.')
-      .required('This field is required'),
-    confirmPassword: Yup.string().oneOf(
-      [Yup.ref('password'), undefined, ''],
-      'Passwords must match'
-    ),
 
     name: Yup.string().required('This field is required'),
     phone: Yup.number().min(0, 'Invalid phone number'),
@@ -47,11 +43,10 @@ export default function SignUp() {
   const submitForm = async (data: any) => {
     console.log('data: ', data);
 
-    const url = '/api/users/signup';
-    const method = 'POST';
+    const url = `/api/users/${userDetail.id}`;
+    const method = 'PUT';
     const bodyData = {
       email: data.email,
-      password: data.password,
       name: data.name,
       phone: data.phone,
       address: data.address,
@@ -68,8 +63,8 @@ export default function SignUp() {
     const resBody = await res.json();
 
     if (res.ok) {
-      toast.success('Create successfully');
-      router.replace('/login');
+      toast.success('Update successfully');
+      router.replace(`/users/${userDetail.id}`);
     } else {
       toast.error(resBody.message);
     }
@@ -78,7 +73,7 @@ export default function SignUp() {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={signupFormSchema}
+      validationSchema={editFormSchema}
       onSubmit={submitForm}
     >
       {(formik) => {
@@ -86,7 +81,9 @@ export default function SignUp() {
         return (
           <Fragment>
             <div className="m-8 grid justify-center">
-              <div className="text-2xl font-bold mb-8	text-center">Sign up</div>
+              <div className="text-2xl font-bold mb-8	text-center">
+                Update user detail
+              </div>
               <Card className="min-w-96">
                 <Form>
                   <div className="mb-4">
@@ -99,60 +96,12 @@ export default function SignUp() {
                       placeholder="Email"
                       color={errors.email && touched.email ? 'failure' : ''}
                       value={formik.values.email}
+                      disabled
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                     />
                     <ErrorMessage
                       name="email"
-                      component="span"
-                      className="text-red-700"
-                    />
-                  </div>
-
-                  <div className="mb-4">
-                    <div className="mb-2 block">
-                      <Label htmlFor="password" value="Password" />
-                    </div>
-                    <TextInput
-                      id="password"
-                      type="password"
-                      placeholder="Password"
-                      color={
-                        errors.password && touched.password ? 'failure' : ''
-                      }
-                      value={formik.values.password}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                    <ErrorMessage
-                      name="password"
-                      component="span"
-                      className="text-red-700"
-                    />
-                  </div>
-
-                  <div className="mb-4">
-                    <div className="mb-2 block">
-                      <Label
-                        htmlFor="confirmPassword"
-                        value="Confirm password"
-                      />
-                    </div>
-                    <TextInput
-                      id="confirmPassword"
-                      type="password"
-                      placeholder="Confirm password"
-                      color={
-                        errors.confirmPassword && touched.confirmPassword
-                          ? 'failure'
-                          : ''
-                      }
-                      value={formik.values.confirmPassword}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                    <ErrorMessage
-                      name="confirmPassword"
                       component="span"
                       className="text-red-700"
                     />
@@ -226,10 +175,10 @@ export default function SignUp() {
                       }
                       disabled={!isValid || loading}
                     >
-                      {loading ? <Spinner /> : 'Sign up'}
+                      {loading ? <Spinner /> : 'Update'}
                     </Button>
 
-                    <Link href={'/login'}>
+                    <Link href={`/users/${userDetail.id}`}>
                       <Button type="button" className="ml-2">
                         Back
                       </Button>
