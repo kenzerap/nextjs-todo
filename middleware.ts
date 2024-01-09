@@ -1,7 +1,7 @@
 import { withAuth } from 'next-auth/middleware';
 import { User } from './models/user.model';
 
-const publicPath = ['/login', '/signup', '/products', '/', '/api/users/signup'];
+const publicPath = ['/login', '/signup', '/products', '/', '/api/users/signup', '/cart'];
 
 const adminPath = ['/users'];
 

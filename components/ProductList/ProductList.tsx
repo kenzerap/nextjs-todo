@@ -9,9 +9,12 @@ import { Fragment, useState } from 'react';
 import { Product } from '@/models/product.model';
 import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '@/store/slices/cartShoppingSlice';
 
 export default function ProductList({ products }: { products: Product[] }) {
   const [deleting, setDeleting] = useState(false);
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const { data: session } = useSession();
@@ -40,7 +43,7 @@ export default function ProductList({ products }: { products: Product[] }) {
   };
 
   const addToCard = (product: Product) => {
-    console.log('addToCard: ', product);
+    dispatch(addToCart({ item: product }));
   };
 
   const adminAdtions = (product: Product) => (

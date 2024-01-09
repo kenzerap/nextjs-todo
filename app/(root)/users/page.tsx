@@ -1,7 +1,6 @@
 import UserList from '@/components/UserList/UserList';
 import { User } from '@/models/user.model';
 import { apiUrl } from '@/utils/constants';
-import RefreshToken from '@/components/RefreshToken/RefreshToken';
 import { auth } from '@/auth';
 import { Suspense } from 'react';
 import { Spinner } from 'flowbite-react';
@@ -28,9 +27,11 @@ const Users = async () => {
   const session = await auth();
   const { data, error, status } = await fetchUsers(session?.token as string);
 
-  return status === 401 ? (
-    <RefreshToken></RefreshToken>
-  ) : (
+  if (status === 401) {
+    throw new Error('unAuthorized');
+  }
+
+  return (
     <Suspense
       fallback={
         <div className="text-center">

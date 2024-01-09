@@ -47,9 +47,6 @@ export const authConfig = {
   ],
   callbacks: {
     async session({ session, user, token }) {
-      const expiresDate = new Date();
-      expiresDate.setHours(expiresDate.getHours() + 1);
-      session.expires = expiresDate.toISOString();
       return { ...session, user: token.user as User, token: token.token };
     },
     async jwt({ token, user, account, profile }) {

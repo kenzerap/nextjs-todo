@@ -4,16 +4,25 @@ import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react';
 import classes from './HeaderBar.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import CartShopping from '../CartShopping/CartShopping';
 import { useSession, signOut, signIn } from 'next-auth/react';
+import * as fromReducer from '../../store/store';
+import { useSelector } from 'react-redux';
 
 export default function HeaderBar() {
   const pathname = usePathname();
   const { data: session, status } = useSession();
+  const router = useRouter();
+
+  const selectedItem: number = useSelector(fromReducer.selectCartItemCount);
 
   const isSignedIn = status === 'authenticated';
   const isAdmin = session?.user?.isAdmin;
+
+  const showCartDetailHandler = () => {
+    router.push('/cart');
+  };
 
   return (
     <Navbar fluid className={classes.navBar}>
@@ -33,7 +42,10 @@ export default function HeaderBar() {
       </Navbar.Brand>
       <div className="flex md:order-2">
         <div className="mr-8">
-          <CartShopping selectedItem={0}></CartShopping>
+          <CartShopping
+            selectedItem={selectedItem}
+            onShowCartDetail={showCartDetailHandler}
+          ></CartShopping>
         </div>
 
         {isSignedIn && session ? (

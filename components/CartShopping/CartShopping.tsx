@@ -1,9 +1,12 @@
 import React from 'react';
 import classes from './CartShopping.module.css';
 
-const CartShopping: React.FC<{ selectedItem: number }> = (props) => {
+const CartShopping: React.FC<{
+  selectedItem: number;
+  onShowCartDetail: () => void;
+}> = (props) => {
   const showCartDetail = () => {
-    console.log('showCartDetail');
+    props.onShowCartDetail();
   };
 
   return (

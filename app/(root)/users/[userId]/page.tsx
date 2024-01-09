@@ -1,4 +1,3 @@
-import RefreshToken from '@/components/RefreshToken/RefreshToken';
 import { User } from '@/models/user.model';
 import { apiUrl } from '@/utils/constants';
 import { Button, Card } from 'flowbite-react';
@@ -32,9 +31,11 @@ const UserDetail = async ({ params }: { params: { userId: string } }) => {
     status,
   } = await fetchUserById(params.userId, session?.token as string);
 
-  return status === 401 ? (
-    <RefreshToken></RefreshToken>
-  ) : (
+  if (status === 401) {
+    throw new Error('unAuthorized');
+  }
+
+  return (
     <div className={classes.layout}>
       <div className="text-2xl font-bold mb-8	">User detail</div>
       <Card>

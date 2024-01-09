@@ -1,4 +1,3 @@
-import RefreshToken from '@/components/RefreshToken/RefreshToken';
 import { User } from '@/models/user.model';
 import { apiUrl } from '@/utils/constants';
 import { auth } from '@/auth';
@@ -30,10 +29,9 @@ const UserDetailEdit = async ({ params }: { params: { userId: string } }) => {
     status,
   } = await fetchUserById(params.userId, session?.token as string);
 
-  return status === 401 ? (
-    <RefreshToken></RefreshToken>
-  ) : (
-    status === 200 && userDetail && (
+  return (
+    status === 200 &&
+    userDetail && (
       <UserDetailEditForm userDetail={userDetail}></UserDetailEditForm>
     )
   );
