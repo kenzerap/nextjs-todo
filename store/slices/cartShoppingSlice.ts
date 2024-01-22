@@ -1,3 +1,5 @@
+'use client';
+
 import { CartShoppingItem } from '@/models/cart-shopping-item.model';
 import { Product } from '@/models/product.model';
 import { createSlice } from '@reduxjs/toolkit';
@@ -8,9 +10,13 @@ export interface CartState {
   entities: { [id: string]: CartShoppingItem };
 }
 
+const cartStorage = localStorage?.getItem('cartShopping')
+  ? JSON.parse(localStorage.getItem('cartShopping') || '')
+  : {};
+
 const initialState: CartState = {
-  itemCount: 0,
-  entities: {},
+  itemCount: cartStorage.itemCount || 0,
+  entities: cartStorage.entities || {},
 };
 
 export const cartShoppingSlice = createSlice({
@@ -23,6 +29,8 @@ export const cartShoppingSlice = createSlice({
         ? { ...entity, quantity: entity.quantity + 1 }
         : { ...action.payload.item, quantity: 1 };
       state.itemCount++;
+
+      updateCartStorate(state);
     },
     reduceCartProduct: (
       state: CartState,
@@ -35,6 +43,23 @@ export const cartShoppingSlice = createSlice({
       }
 
       state.itemCount--;
+
+      updateCartStorate(state);
+    },
+    modifyQuantity: (
+      state: CartState,
+      action: PayloadAction<{ productId: string; quantity: number }>
+    ) => {
+      if (state.entities[action.payload.productId]) {
+        const oldQuantity = state.entities[action.payload.productId].quantity;
+        state.entities[action.payload.productId].quantity =
+          action.payload.quantity;
+
+        state.itemCount =
+          state.itemCount - oldQuantity + action.payload.quantity;
+      }
+
+      updateCartStorate(state);
     },
     removeCartProduct: (
       state: CartState,
@@ -44,18 +69,31 @@ export const cartShoppingSlice = createSlice({
       delete state.entities[action.payload.productId];
 
       state.itemCount -= entityQuantity;
+
+      updateCartStorate(state);
     },
     resetCartShopping: (state: CartState) => {
       state.entities = {};
       state.itemCount = 0;
+
+      updateCartStorate(state);
     },
   },
 });
+
+const updateCartStorate = (state: CartState) => {
+  const cartShopping: CartState = {
+    itemCount: state.itemCount,
+    entities: state.entities,
+  };
+  localStorage.setItem('cartShopping', JSON.stringify(cartShopping));
+};
 
 export const {
   addToCart,
   reduceCartProduct,
   removeCartProduct,
+  modifyQuantity,
   resetCartShopping,
 } = cartShoppingSlice.actions;
 

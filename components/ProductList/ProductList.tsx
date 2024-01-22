@@ -11,9 +11,12 @@ import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/store/slices/cartShoppingSlice';
+import DeleteProductModal from '../DeleteProductModal/DeleteProductModal';
 
 export default function ProductList({ products }: { products: Product[] }) {
   const [deleting, setDeleting] = useState(false);
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
+  const [productIdDeleted, setProductIdDeleted] = useState('');
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -23,23 +26,32 @@ export default function ProductList({ products }: { products: Product[] }) {
   const productsLoading = false;
 
   const deleteProductHandler = async (productId: any) => {
-    const url = `/api/product/${productId}`;
-    const method = 'DELETE';
+    setIsShowDeleteModal(true);
+    setProductIdDeleted(productId);
+  };
 
-    setDeleting(true);
-    const res = await fetch(url, {
-      method: method,
-    });
+  const closeConfirmModalHandeler = async (isConfirm: boolean) => {
+    if (isConfirm) {
+      const url = `/api/product/${productIdDeleted}`;
+      const method = 'DELETE';
 
-    setDeleting(false);
+      setDeleting(true);
+      const res = await fetch(url, {
+        method: method,
+      });
 
-    if (res.ok) {
-      toast.success('Delete successfully');
-      router.replace('/products');
-    } else {
-      const resBody = await res.json();
-      toast.error(resBody?.message || resBody);
+      setDeleting(false);
+
+      if (res.ok) {
+        toast.success('Delete successfully');
+        router.replace('/products');
+      } else {
+        const resBody = await res.json();
+        toast.error(resBody?.message || resBody);
+      }
     }
+
+    setIsShowDeleteModal(false);
   };
 
   const addToCard = (product: Product) => {
@@ -134,10 +146,11 @@ export default function ProductList({ products }: { products: Product[] }) {
         )}
       </Card>
 
-      {/* <DeleteProductModal
+      <DeleteProductModal
         isShowDeleteModal={isShowDeleteModal}
+        isLoading={deleting}
         onCloseConfirmModal={closeConfirmModalHandeler}
-      ></DeleteProductModal> */}
+      ></DeleteProductModal>
     </Fragment>
   );
 }

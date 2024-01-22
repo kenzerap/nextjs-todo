@@ -3,27 +3,58 @@
 import { Button, Card, Table, TextInput } from 'flowbite-react';
 import classes from './CartShoppingList.module.css';
 import Image from 'next/image';
-import { Fragment } from 'react';
+import { ChangeEvent, Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeCartProduct } from '@/store/slices/cartShoppingSlice';
+import {
+  modifyQuantity,
+  removeCartProduct,
+} from '@/store/slices/cartShoppingSlice';
 import { CartShoppingItem } from '@/models/cart-shopping-item.model';
 import * as fromReducer from '../../store/store';
 import { FaRegTrashCan } from 'react-icons/fa6';
+import { useRouter } from 'next/navigation';
+import DeleteProductModal from '../DeleteProductModal/DeleteProductModal';
+import Link from 'next/link';
 
 export default function CartShoppingList() {
   const dispatch = useDispatch();
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
+  const [productIdDeleted, setProductIdDeleted] = useState('');
+
+  const cartItemCount: number = useSelector(fromReducer.selectCartItemCount);
 
   const cartProducts: CartShoppingItem[] = useSelector(
     fromReducer.selectCartitems
   );
 
-  const deleteCartProductHandler = async (productId: any) => {
-    dispatch(removeCartProduct({ productId }));
+  const deleteCartProductHandler = async (productId: string) => {
+    setIsShowDeleteModal(true);
+    setProductIdDeleted(productId);
   };
 
-  const addCartProductHandler = async (cartProduct: CartShoppingItem) => {
-    console.log('addCartProductHandler: ', cartProduct);
-    // dispatch(removeCartProduct({ productId }));
+  const closeConfirmModalHandeler = async (isConfirm: boolean) => {
+    if (isConfirm) {
+      dispatch(removeCartProduct({ productId: productIdDeleted }));
+    }
+
+    setIsShowDeleteModal(false);
+  };
+
+  const addCartProductHandler = async (
+    event: ChangeEvent<HTMLInputElement>,
+    cartProductId: string
+  ) => {
+    const quantity = Number(event.target.value);
+    if (quantity === 0) {
+      deleteCartProductHandler(cartProductId);
+    } else {
+      dispatch(
+        modifyQuantity({
+          productId: cartProductId,
+          quantity,
+        })
+      );
+    }
   };
 
   return (
@@ -68,15 +99,16 @@ export default function CartShoppingList() {
                     {cartProduct.price}$
                   </Table.Cell>
                   <Table.Cell>
-                    {/* <TextInput
-                      id="name"
-                      placeholder="Product name"
-                      type="text"
+                    <TextInput
+                      className="w-16"
+                      id="quantity"
+                      type="number"
+                      min={0}
                       value={cartProduct.quantity}
-                      onChange={addCartProductHandler(cartProduct)}
-                      onBlur={addCartProductHandler(cartProduct)}
-                    /> */}
-                    {cartProduct.quantity}
+                      onChange={(event) =>
+                        addCartProductHandler(event, cartProduct.id)
+                      }
+                    />
                   </Table.Cell>
 
                   <Table.Cell className="text-green-500 font-bold text-xl">
@@ -101,12 +133,20 @@ export default function CartShoppingList() {
                 $
               </Table.Cell>
               <Table.Cell>
-                <Button>Next step</Button>
+                <Link href={'/checkout'}>
+                  <Button disabled={!cartItemCount}>Checkout</Button>
+                </Link>
               </Table.Cell>
             </Table.Row>
           </Table.Body>
         </Table>
       </Card>
+
+      <DeleteProductModal
+        isShowDeleteModal={isShowDeleteModal}
+        isLoading={false}
+        onCloseConfirmModal={closeConfirmModalHandeler}
+      ></DeleteProductModal>
     </Fragment>
   );
 }
