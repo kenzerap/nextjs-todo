@@ -10,19 +10,23 @@ export interface CartState {
   entities: { [id: string]: CartShoppingItem };
 }
 
-const cartStorage = localStorage?.getItem('cartShopping')
-  ? JSON.parse(localStorage.getItem('cartShopping') || '')
-  : {};
-
 const initialState: CartState = {
-  itemCount: cartStorage.itemCount || 0,
-  entities: cartStorage.entities || {},
+  itemCount: 0,
+  entities: {},
 };
 
 export const cartShoppingSlice = createSlice({
   name: 'cartShoppingSlice',
   initialState,
   reducers: {
+    syncCartLocalStore: (state: CartState) => {
+      const cartStorage = localStorage?.getItem('cartShopping')
+        ? JSON.parse(localStorage.getItem('cartShopping') || '')
+        : {};
+
+      state.entities = cartStorage.entities || {};
+      state.itemCount = cartStorage.itemCount || 0;
+    },
     addToCart: (state: CartState, action: PayloadAction<{ item: Product }>) => {
       const entity = state.entities[action.payload.item.id];
       state.entities[action.payload.item.id] = entity
@@ -90,6 +94,7 @@ const updateCartStorate = (state: CartState) => {
 };
 
 export const {
+  syncCartLocalStore,
   addToCart,
   reduceCartProduct,
   removeCartProduct,

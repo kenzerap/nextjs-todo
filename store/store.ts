@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, createSelector } from '@reduxjs/toolkit';
 import { cartShoppingReducer } from './slices/cartShoppingSlice';
 
 export const makeStore = () => {
@@ -17,8 +17,10 @@ export type AppDispatch = AppStore['dispatch'];
 export const selectCartItemCount = (state: RootState) =>
   state.cartShopping.itemCount;
 
-export const selectCartitems = (state: RootState) => {
-  return Object.entries(state.cartShopping.entities).map(([_key, item]) => {
-    return item;
-  });
-};
+export const selectCartitems = createSelector(
+  [(state: RootState) => state.cartShopping.entities],
+  (entities) =>
+    Object.entries(entities).map(([_key, item]) => {
+      return item;
+    })
+);

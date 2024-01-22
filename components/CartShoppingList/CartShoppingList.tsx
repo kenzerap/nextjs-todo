@@ -57,6 +57,10 @@ export default function CartShoppingList() {
     }
   };
 
+  const checkoutHandler = () => {
+    localStorage.removeItem('cartShopping');
+  };
+
   return (
     <Fragment>
       <div className="flex justify-between mb-8">
@@ -133,8 +137,10 @@ export default function CartShoppingList() {
                 $
               </Table.Cell>
               <Table.Cell>
-                <Link href={'/checkout'}>
-                  <Button disabled={!cartItemCount}>Checkout</Button>
+                <Link href={'https://buy.stripe.com/test_bIY7swegObX4frW6oo'}>
+                  <Button disabled={!cartItemCount} onClick={checkoutHandler}>
+                    Checkout
+                  </Button>
                 </Link>
               </Table.Cell>
             </Table.Row>

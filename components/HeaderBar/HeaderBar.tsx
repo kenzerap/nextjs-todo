@@ -8,17 +8,26 @@ import { usePathname, useRouter } from 'next/navigation';
 import CartShopping from '../CartShopping/CartShopping';
 import { useSession, signOut, signIn } from 'next-auth/react';
 import * as fromReducer from '../../store/store';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { syncCartLocalStore } from '@/store/slices/cartShoppingSlice';
 
 export default function HeaderBar() {
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const selectedItem: number = useSelector(fromReducer.selectCartItemCount);
 
   const isSignedIn = status === 'authenticated';
   const isAdmin = session?.user?.isAdmin;
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(syncCartLocalStore());
+    }, 100);
+  }, []);
 
   const showCartDetailHandler = () => {
     router.push('/cart');
