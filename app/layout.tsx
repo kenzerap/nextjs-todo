@@ -4,6 +4,7 @@ import './globals.css';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
 import { Toaster } from 'sonner';
 import StoreProvider from '../store/StoreProvider';
+import { AntdRegistry } from '@ant-design/nextjs-registry';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <StoreProvider>
           <Toaster richColors duration={2000} position="top-right" />
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <AntdRegistry>{children}</AntdRegistry>
+          </AuthProvider>
         </StoreProvider>
       </body>
     </html>

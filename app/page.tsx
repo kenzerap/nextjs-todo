@@ -1,10 +1,12 @@
 'use client';
 
 import HeaderBar from '@/components/HeaderBar/HeaderBar';
-import { Card, Carousel } from 'flowbite-react';
 import Image from 'next/image';
 import { Fragment } from 'react';
 import classes from './Home.module.css';
+import { Button, Carousel } from 'antd';
+import Link from 'next/link';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 export default function Home() {
   const images = [
@@ -20,21 +22,63 @@ export default function Home() {
   return (
     <Fragment>
       <HeaderBar></HeaderBar>
-      <Card className={`${classes.cardbar} mx-8 mt-8`}>
-        <h3 className="text-center text-5xl mt-4 mb-4">
-          Welcome to NextPee shop
-        </h3>
+      <section className="relative">
+        <video autoPlay muted loop className="w-full h-full">
+          <source
+            src="https://www.patagonia.com/media/marketing/videos/s24-cold-weather-layering-hero.mp4"
+            type="video/mp4"
+          ></source>
+        </video>
+        <div className="absolute top-1/4 w-full text-center text-white">
+          <p className="text-8xl">WINTER SALE</p>
+          <p className="text-5xl">UP TO 70% OFF. Now until Jan. 29, 2024</p>
+          <Link href="/products">
+            <Button size={'large'} className={`mt-4 ${classes.shopBtn}`}>
+              Shop now
+            </Button>
+          </Link>
+        </div>
+      </section>
 
-        <Carousel slideInterval={2000}>
-          {images.map((imageUrl, index) => {
-            return (
-              <div className={classes.image} key={index}>
-                <Image fill src={imageUrl} alt={imageUrl} quality={100}></Image>
-              </div>
-            );
-          })}
-        </Carousel>
-      </Card>
+      <section>
+        <h5>Shop by Category</h5>
+
+        <div>
+          <Carousel
+            prevArrow={<LeftOutlined></LeftOutlined>}
+            nextArrow={<RightOutlined></RightOutlined>}
+          >
+            <div>
+              <h3>1</h3>
+            </div>
+            <div>
+              <h3>2</h3>
+            </div>
+            <div>
+              <h3>3</h3>
+            </div>
+            <div>
+              <h3>4</h3>
+            </div>
+          </Carousel>
+        </div>
+      </section>
     </Fragment>
   );
+
+  {
+    /* <Card className={`${classes.cardbar} mx-8 mt-8`}>
+    <h3 className="text-center text-5xl mt-4 mb-4">Welcome to NextPee shop</h3>
+
+    <Carousel slideInterval={2000}>
+      {images.map((imageUrl, index) => {
+        return (
+          <div className={classes.image} key={index}>
+            <Image fill src={imageUrl} alt={imageUrl} quality={100}></Image>
+          </div>
+        );
+      })}
+    </Carousel>
+  </Card>; */
+  }
 }

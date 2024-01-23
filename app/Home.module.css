@@ -6,3 +6,7 @@
 .cardbar {
   height: calc(100vh - 8rem);
 }
+
+.shopBtn:hover {
+  transform: scale(1.1);
+}
