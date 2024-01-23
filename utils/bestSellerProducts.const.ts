@@ -1,0 +1,65 @@
+export const bestSellerProducts: {
+  imageShowUrl: string;
+  imageHoverUrl: string;
+}[] = [
+  {
+    imageShowUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2410192-611.01_600x.jpg?v=1696599343',
+    imageHoverUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2410192-611.02_600x.jpg?v=1696599343',
+  },
+  {
+    imageShowUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2410196-579.01_600x.jpg?v=1690906913',
+    imageHoverUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2410196-579.02_600x.jpg?v=1690907026',
+  },
+  {
+    imageShowUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2510507-249.01_600x.jpg?v=1698433837',
+    imageHoverUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2510507-249.02_600x.jpg?v=1698433837',
+  },
+  {
+    imageShowUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2210551-2BM.01_600x.jpg?v=1696598259',
+    imageHoverUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2210551-2BM.02_600x.jpg?v=1696598259',
+  },
+  {
+    imageShowUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2510507-063.01_600x.jpg?v=1698433762',
+    imageHoverUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2510507-063.02_600x.jpg?v=1698433762',
+  },
+  {
+    imageShowUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2130257-079.01_600x.jpg?v=1697558256',
+    imageHoverUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2130257-079.02_600x.jpg?v=1697558256',
+  },
+  {
+    imageShowUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2120225-2KU.01_600x.jpg?v=1698428195',
+    imageHoverUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2120225-2KU.02_600x.jpg?v=1698428195',
+  },
+  {
+    imageShowUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2130259-002.03_600x.jpg?v=1698691736',
+    imageHoverUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2130259-002.01_600x.jpg?v=1698691736',
+  },
+  {
+    imageShowUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2130260-545.01_600x.jpg?v=1698433077',
+    imageHoverUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2130260-545.02_600x.jpg?v=1698433077',
+  },
+  {
+    imageShowUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2130248-00W.01_600x.jpg?v=1696425965',
+    imageHoverUrl:
+      'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2130248-00W.02_600x.jpg?v=1696425965',
+  },
+];

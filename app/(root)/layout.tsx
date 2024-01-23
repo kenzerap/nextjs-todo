@@ -1,3 +1,4 @@
+import FooterBar from '@/components/FooterBar/FooterBar';
 import HeaderBar from '@/components/HeaderBar/HeaderBar';
 import { Fragment } from 'react';
 
@@ -10,6 +11,7 @@ export default function DashboardLayout({
     <Fragment>
       <HeaderBar></HeaderBar>
       <div className="m-8">{children}</div>
+      <FooterBar></FooterBar>
     </Fragment>
   );
 }

@@ -35,7 +35,7 @@ export default function HeaderBar() {
 
   return (
     <Navbar fluid className={classes.navBar}>
-      <Navbar.Brand>
+      <Navbar.Brand href="#">
         <Image
           src="https://www.flowbite-react.com/favicon.svg"
           alt="Flowbite React Logo"
@@ -78,7 +78,7 @@ export default function HeaderBar() {
             </Dropdown.Item>
           </Dropdown>
         ) : (
-          <Button type="button" onClick={() => signIn()}>
+          <Button type="button" className='mr-2' onClick={() => signIn()}>
             Login
           </Button>
         )}

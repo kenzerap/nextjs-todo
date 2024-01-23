@@ -7,22 +7,42 @@ import classes from './Home.module.css';
 import { Button, Carousel } from 'antd';
 import Link from 'next/link';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import CategoryCard from '@/components/CategoryCard/CategoryCard';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import SliderArrow from '@/components/SliderArrow/SliderArrow';
+import { categories } from '@/utils/categories.const';
+import ProductsSliderCard from '@/components/ProductsSliderCard/ProductsSliderCard';
+import { bestSellerProducts } from '@/utils/bestSellerProducts.const';
+import FooterBar from '@/components/FooterBar/FooterBar';
 
 export default function Home() {
-  const images = [
-    'https://cdn.chanhtuoi.com/uploads/2022/12/mau-background-noel-dep-mung-giang-sinh-2022-1670901526.jpg',
-    'https://images.wallpaperscraft.com/image/single/christmas_tree_garland_street_68906_3450x2250.jpg',
-    'https://w.wallhaven.cc/full/o5/wallhaven-o5762l.png',
-    'https://cdn.pixabay.com/photo/2012/04/13/01/23/moon-31665_1280.png',
-    'https://images.pexels.com/photos/980859/pexels-photo-980859.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://treobangron.com.vn/wp-content/uploads/2022/11/background-noel-giang-sinh-4-2.jpg',
-    'https://www.tnmt.edu.vn/wp-content/uploads/2023/11/hinh-nen-powerpoint-giang-sinh-2.jpg',
-  ];
+  const categoriesData = categories;
+  const bestSellerProductsData = bestSellerProducts;
+
+  const categorysliderSettings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 2,
+    nextArrow: <SliderArrow isLeftArrow={false} />,
+    prevArrow: <SliderArrow isLeftArrow={true} />,
+  };
+
+  const bestSellerSliderSettings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    nextArrow: <SliderArrow isLeftArrow={false} />,
+    prevArrow: <SliderArrow isLeftArrow={true} />,
+  };
 
   return (
     <Fragment>
       <HeaderBar></HeaderBar>
-      <section className="relative">
+      <section className="relative mx-8 mt-8">
         <video autoPlay muted loop className="w-full h-full">
           <source
             src="https://www.patagonia.com/media/marketing/videos/s24-cold-weather-layering-hero.mp4"
@@ -30,8 +50,10 @@ export default function Home() {
           ></source>
         </video>
         <div className="absolute top-1/4 w-full text-center text-white">
-          <p className="text-8xl">WINTER SALE</p>
-          <p className="text-5xl">UP TO 70% OFF. Now until Jan. 29, 2024</p>
+          <p className={`${classes['fontSize-5vw']}`}>WINTER SALE</p>
+          <p className={`${classes['fontSize-2-5vw']}`}>
+            UP TO 70% OFF. Now until Jan. 29, 2024
+          </p>
           <Link href="/products">
             <Button size={'large'} className={`mt-4 ${classes.shopBtn}`}>
               Shop now
@@ -40,45 +62,46 @@ export default function Home() {
         </div>
       </section>
 
-      <section>
-        <h5>Shop by Category</h5>
+      <section className="mt-8 mx-8">
+        <h5 className="text-2xl font-bold mb-4">Categories</h5>
 
-        <div>
-          <Carousel
-            prevArrow={<LeftOutlined></LeftOutlined>}
-            nextArrow={<RightOutlined></RightOutlined>}
-          >
-            <div>
-              <h3>1</h3>
-            </div>
-            <div>
-              <h3>2</h3>
-            </div>
-            <div>
-              <h3>3</h3>
-            </div>
-            <div>
-              <h3>4</h3>
-            </div>
-          </Carousel>
-        </div>
+        <Slider {...categorysliderSettings}>
+          {categoriesData.map((category, index) => {
+            return (
+              <div key={index}>
+                <CategoryCard
+                  coverImg={category.coverImg}
+                  textBody={category.name}
+                ></CategoryCard>
+              </div>
+            );
+          })}
+        </Slider>
       </section>
+
+      <section className="m-8">
+        <div className="flex justify-between mb-4">
+          <h5 className="text-2xl font-bold">Best Sellers</h5>
+
+          <Link className="text-2xl underline" href={'/products'}>
+            See all
+          </Link>
+        </div>
+        <Slider {...bestSellerSliderSettings}>
+          {bestSellerProductsData.map((product, index) => {
+            return (
+              <div key={index}>
+                <ProductsSliderCard
+                  imageShowUrl={product.imageShowUrl}
+                  imageHoverUrl={product.imageHoverUrl}
+                ></ProductsSliderCard>
+              </div>
+            );
+          })}
+        </Slider>
+      </section>
+
+      <FooterBar></FooterBar>
     </Fragment>
   );
-
-  {
-    /* <Card className={`${classes.cardbar} mx-8 mt-8`}>
-    <h3 className="text-center text-5xl mt-4 mb-4">Welcome to NextPee shop</h3>
-
-    <Carousel slideInterval={2000}>
-      {images.map((imageUrl, index) => {
-        return (
-          <div className={classes.image} key={index}>
-            <Image fill src={imageUrl} alt={imageUrl} quality={100}></Image>
-          </div>
-        );
-      })}
-    </Carousel>
-  </Card>; */
-  }
 }
