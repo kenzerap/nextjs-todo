@@ -8,10 +8,12 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Fragment>
+    <div>
       <HeaderBar></HeaderBar>
-      <div className="m-8">{children}</div>
+      <div className="m-8" style={{ minHeight: 'calc(100vh - 23.3rem)' }}>
+        {children}
+      </div>
       <FooterBar></FooterBar>
-    </Fragment>
+    </div>
   );
 }
