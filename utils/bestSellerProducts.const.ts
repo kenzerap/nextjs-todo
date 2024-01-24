@@ -16,7 +16,7 @@ export const bestSellerProducts: BestProduct[] = [
       'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2410196-579.01_600x.jpg?v=1690906913',
     imageHoverUrl:
       'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2410196-579.02_600x.jpg?v=1690907026',
-    rate: { averageValue: 4, rateCount: 5331 },
+    rate: { averageValue: 5, rateCount: 5331 },
     price: 120,
     name: `Men's Nano Puff® Hoody`,
     description: `Basketball Shoes`,
@@ -46,7 +46,7 @@ export const bestSellerProducts: BestProduct[] = [
       'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2510507-063.01_600x.jpg?v=1698433762',
     imageHoverUrl:
       'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2510507-063.02_600x.jpg?v=1698433762',
-    rate: { averageValue: 4, rateCount: 2112 },
+    rate: { averageValue: 5, rateCount: 2112 },
     price: 199,
     name: `Jordan Brooklyn Fleece`,
     description: `Women's Pullover Hoodie`,
@@ -66,7 +66,7 @@ export const bestSellerProducts: BestProduct[] = [
       'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2120225-2KU.01_600x.jpg?v=1698428195',
     imageHoverUrl:
       'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2120225-2KU.02_600x.jpg?v=1698428195',
-    rate: { averageValue: 4, rateCount: 555 },
+    rate: { averageValue: 5, rateCount: 555 },
     price: 112,
     name: `Nike Air`,
     description: `Women's Long-Sleeve Top`,
@@ -96,7 +96,7 @@ export const bestSellerProducts: BestProduct[] = [
       'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2130248-00W.01_600x.jpg?v=1696425965',
     imageHoverUrl:
       'https://cdn.shopify.com/s/files/1/0555/5722/6653/files/2130248-00W.02_600x.jpg?v=1696425965',
-    rate: { averageValue: 4, rateCount: 653 },
+    rate: { averageValue: 5, rateCount: 653 },
     price: 1220,
     name: `Nike Sportswear Phoenix Fleece`,
     description: `Women's Oversized Crew-Neck Logo Sweatshirt`,

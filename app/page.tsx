@@ -79,11 +79,11 @@ export default function Home() {
       </section>
 
       <section className="m-8">
-        <div className="flex justify-between mb-4">
-          <h5 className="text-2xl font-bold">Best Sellers</h5>
+        <div className="flex mb-4 items-center">
+          <h5 className="text-2xl font-bold mr-2">Best Sellers</h5>
 
-          <Link className="text-2xl underline" href={'/products'}>
-            See all
+          <Link className="text-base underline" href={'/products'}>
+            View all
           </Link>
         </div>
         <div className={classes.bestSellers}>

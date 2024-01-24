@@ -35,7 +35,7 @@ export default function HeaderBar() {
 
   return (
     <Navbar fluid className={classes.navBar}>
-      <Navbar.Brand href="#">
+      <Navbar.Brand href="/">
         <Image
           src="https://www.flowbite-react.com/favicon.svg"
           alt="Flowbite React Logo"

@@ -16,7 +16,7 @@ const FooterBar: React.FC<{}> = (props) => {
         <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
           <div>
             <Footer.Brand
-              href="#"
+              href="/"
               src="https://www.flowbite-react.com/favicon.svg"
             >
               <span className="self-center whitespace-nowrap text-xl font-semibold text-white">

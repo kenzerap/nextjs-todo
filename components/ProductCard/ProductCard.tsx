@@ -52,11 +52,12 @@ const ProductCard: React.FC<{
         <Rate
           disabled
           defaultValue={0}
+          allowHalf
           value={props.product.rate.averageValue}
         />
         <p className="ml-2">({props.product.rate.rateCount})</p>
       </div>
-      <div className="mt-4 font-bold">${props.product.price}</div>
+      <div className="mt-4 font-bold text-red-700">${props.product.price}</div>
     </Card>
   );
 };
