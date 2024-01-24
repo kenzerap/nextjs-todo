@@ -4,16 +4,15 @@ import HeaderBar from '@/components/HeaderBar/HeaderBar';
 import Image from 'next/image';
 import { Fragment } from 'react';
 import classes from './Home.module.css';
-import { Button, Carousel } from 'antd';
+import { Button } from 'antd';
 import Link from 'next/link';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import CategoryCard from '@/components/CategoryCard/CategoryCard';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import SliderArrow from '@/components/SliderArrow/SliderArrow';
 import { categories } from '@/utils/categories.const';
-import ProductsSliderCard from '@/components/ProductsSliderCard/ProductsSliderCard';
+import ProductCard from '@/components/ProductCard/ProductCard';
 import { bestSellerProducts } from '@/utils/bestSellerProducts.const';
 import FooterBar from '@/components/FooterBar/FooterBar';
 
@@ -87,18 +86,11 @@ export default function Home() {
             See all
           </Link>
         </div>
-        <Slider {...bestSellerSliderSettings}>
+        <div className={classes.bestSellers}>
           {bestSellerProductsData.map((product, index) => {
-            return (
-              <div key={index}>
-                <ProductsSliderCard
-                  imageShowUrl={product.imageShowUrl}
-                  imageHoverUrl={product.imageHoverUrl}
-                ></ProductsSliderCard>
-              </div>
-            );
+            return <ProductCard product={product} key={index}></ProductCard>;
           })}
-        </Slider>
+        </div>
       </section>
 
       <FooterBar></FooterBar>

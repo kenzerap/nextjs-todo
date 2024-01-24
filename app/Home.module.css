@@ -11,3 +11,11 @@
   font-size: 2.5vw;
   line-height: 1;
 }
+
+.bestSellers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  column-gap: 1rem;
+  row-gap: 1rem;
+  justify-items: center;
+}

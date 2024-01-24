@@ -10,9 +10,9 @@ export const categories: { name: string; coverImg: string }[] = [
       'https://static.nike.com/a/images/f_auto/dpr_1.0,cs_srgb/w_1808,c_limit/2c316733-7080-4fa9-84f9-c804fac9d053/nike-just-do-it.jpg',
   },
   {
-    name: `Gaming accessories`,
+    name: `Laptops`,
     coverImg:
-      'https://sm.mashable.com/t/mashable_in/photo/default/gaming-accessories-copy_suwm.1248.jpg',
+      'https://images.inc.com/uploaded_files/image/1920x1080/getty_1208082286_427081.jpg',
   },
   {
     name: `Books`,
@@ -24,9 +24,9 @@ export const categories: { name: string; coverImg: string }[] = [
     coverImg: 'https://m.media-amazon.com/images/I/81tMKC00LLL._AC_SX679_.jpg',
   },
   {
-    name: `Laptops`,
+    name: `Gaming accessories`,
     coverImg:
-      'https://images.inc.com/uploaded_files/image/1920x1080/getty_1208082286_427081.jpg',
+      'https://sm.mashable.com/t/mashable_in/photo/default/gaming-accessories-copy_suwm.1248.jpg',
   },
   {
     name: `Foods`,
