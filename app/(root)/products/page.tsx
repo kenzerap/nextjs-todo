@@ -10,8 +10,9 @@ async function fetchProducts() {
     next: { revalidate: 0 },
   });
 
-  const data: Product[] = await response.json();
-  return data;
+  const data: { data: Product[]; totalItem: number; hasNextPage: number } =
+    await response.json();
+  return data.data;
 }
 
 export default async function Products() {

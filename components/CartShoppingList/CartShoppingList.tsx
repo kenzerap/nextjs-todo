@@ -92,8 +92,8 @@ export default function CartShoppingList() {
                   <Table.Cell>
                     <div className="w-60 h-60 relative">
                       <Image
-                        src={cartProduct.imageUrl}
-                        alt={cartProduct.imageUrl}
+                        src={cartProduct.imageUrls?.[0] || ''}
+                        alt={cartProduct.imageUrls?.[0] || ''}
                         quality={100}
                         fill
                       />

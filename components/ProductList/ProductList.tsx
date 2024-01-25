@@ -127,8 +127,8 @@ export default function ProductList({ products }: { products: Product[] }) {
                     <Table.Cell>
                       <div className="w-60 h-60 relative">
                         <Image
-                          src={product.imageUrl}
-                          alt={product.imageUrl}
+                          src={product.imageUrls?.[0] || ''}
+                          alt={product.imageUrls?.[0] || ''}
                           quality={100}
                           fill
                         />

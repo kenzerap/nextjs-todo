@@ -28,7 +28,7 @@ export default function ProductCreateEditForm({
   const [initialValues, setInitialValues] = useState<Partial<Product>>({
     name: '',
     price: 0,
-    imageUrl: '',
+    imageUrls: [],
     description: '',
   });
 
@@ -48,7 +48,7 @@ export default function ProductCreateEditForm({
       .min(0, 'Proce is greater than 0')
       .required('This field is required'),
 
-    imageUrl: Yup.string(),
+    imageUrls: Yup.array().of(Yup.string()),
     description: Yup.string(),
   });
 
@@ -136,7 +136,7 @@ export default function ProductCreateEditForm({
                     id="imageUrl"
                     type="text"
                     placeholder="imageUrl"
-                    value={formik.values.imageUrl}
+                    value={formik.values.imageUrls}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   />

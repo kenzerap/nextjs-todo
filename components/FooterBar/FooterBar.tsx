@@ -8,6 +8,7 @@ import {
   BsInstagram,
   BsTwitter,
 } from 'react-icons/bs';
+import { EnvironmentOutlined, PhoneOutlined } from '@ant-design/icons';
 
 const FooterBar: React.FC<{}> = (props) => {
   return (
@@ -23,6 +24,13 @@ const FooterBar: React.FC<{}> = (props) => {
                 NextPee
               </span>
             </Footer.Brand>
+            <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
+              <EnvironmentOutlined /> &nbsp; Etown Building, Cong Hoa Street,
+              Tan Binh Distreet, Ho Chi Minh City, Vietnam
+            </div>
+            <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
+              <PhoneOutlined /> &nbsp; 022 475 3745
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6">
             <div>
