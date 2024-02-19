@@ -3,10 +3,11 @@ import { Product } from '@/models/product.model';
 import { apiUrl } from '@/utils/constants';
 
 export async function generateStaticParams() {
-  const products: Product[] = await fetch(`${apiUrl}/product/list`).then(
+  const productPaging: { data: Product[]; totalItem: number; hasNextPage: number } = await fetch(`${apiUrl}/product/list?page=1&itemPerPage=9999`).then(
     (res) => res.json()
   );
-  return products.map((product) => ({
+  
+  return productPaging.data.map((product) => ({
     productId: product.id,
   }));
 }
