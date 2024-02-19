@@ -5,25 +5,33 @@ import classes from './ProductList.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Fragment, useState } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 import { Product } from '@/models/product.model';
 import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/store/slices/cartShoppingSlice';
 import DeleteProductModal from '../DeleteProductModal/DeleteProductModal';
+import ProductListFilter from '../ProductListFilter/ProductListFilter';
+import { Category } from '@/models/category.model';
 
-export default function ProductList({ products }: { products: Product[] }) {
+export default function ProductList({
+  products,
+  categories,
+}: {
+  products: Product[];
+  categories: Category[];
+}) {
   const [deleting, setDeleting] = useState(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [productIdDeleted, setProductIdDeleted] = useState('');
+  const [productList, setProductList] = useState(products);
+  const [productsLoading, setProductsLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
 
   const { data: session } = useSession();
   const isAdmin = session?.user.isAdmin;
-
-  const productsLoading = false;
 
   const deleteProductHandler = async (productId: any) => {
     setIsShowDeleteModal(true);
@@ -84,6 +92,27 @@ export default function ProductList({ products }: { products: Product[] }) {
     </Button>
   );
 
+  const filterProductHandler = useCallback(async (query: any) => {
+    const params = new URLSearchParams(query).toString();
+    const url = `/api/product?${params}`;
+    const method = 'GET';
+
+    setProductsLoading(true);
+    const res = await fetch(url, {
+      method: method,
+    });
+
+    setProductsLoading(false);
+
+    const resBody = await res.json();
+
+    if (res.ok) {
+      setProductList(resBody.data);
+    } else {
+      toast.error(resBody.message);
+    }
+  }, []);
+
   return (
     <Fragment>
       <div className="flex justify-between mb-8">
@@ -93,6 +122,13 @@ export default function ProductList({ products }: { products: Product[] }) {
             <Button>Create</Button>
           </Link>
         )}
+      </div>
+
+      <div className="mb-8">
+        <ProductListFilter
+          onFilter={filterProductHandler}
+          categories={categories}
+        ></ProductListFilter>
       </div>
 
       <Card className="overflow-x-auto">
@@ -112,7 +148,7 @@ export default function ProductList({ products }: { products: Product[] }) {
               </Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              {(products || []).map((product) => {
+              {(productList || []).map((product) => {
                 return (
                   <Table.Row
                     className="bg-white dark:border-gray-700 dark:bg-gray-800"

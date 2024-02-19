@@ -4,6 +4,7 @@ import { apiUrl } from '@/utils/constants';
 import ProductList from '@/components/ProductList/ProductList';
 import { Suspense } from 'react';
 import { Spinner } from 'flowbite-react';
+import { Category } from '@/models/category.model';
 
 async function fetchProducts() {
   const response = await fetch(`${apiUrl}/product/list`, {
@@ -15,8 +16,18 @@ async function fetchProducts() {
   return data.data;
 }
 
+async function fetchCategories() {
+  const response = await fetch(`${apiUrl}/category/list`, {
+    next: { revalidate: 120 },
+  });
+
+  const data: Category[] = await response.json();
+  return data;
+}
+
 export default async function Products() {
   const products: Product[] = await fetchProducts();
+  const categories: Category[] = await fetchCategories();
 
   return (
     <Suspense
@@ -26,7 +37,7 @@ export default async function Products() {
         </div>
       }
     >
-      <ProductList products={products}></ProductList>
+      <ProductList products={products} categories={categories}></ProductList>
     </Suspense>
   );
 }

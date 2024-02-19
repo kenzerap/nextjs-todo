@@ -1,4 +1,4 @@
-import { Category } from "./category.model";
+import { Category } from './category.model';
 
 export interface Product {
   id: string;
@@ -18,4 +18,14 @@ export interface BestProduct {
   price: number;
   name: string;
   description: string;
+}
+
+export interface ProductFilterOptions {
+  searchBy?: string;
+  search?: string;
+  orderBy?: string;
+  orderByDirection?: 'asc' | 'desc';
+  page?: number;
+  itemPerPage?: number;
+  categoryCode?: string;
 }
