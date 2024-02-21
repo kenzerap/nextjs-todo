@@ -1,39 +1,29 @@
 'use client';
 
-import React, {
-  ChangeEvent,
-  Fragment,
-  Suspense,
-  useEffect,
-  useState,
-} from 'react';
+import React, { Fragment, useState } from 'react';
 import {
   Button,
   Card,
   Carousel,
   CustomFlowbiteTheme,
-  Label,
-  Spinner,
-  Table,
   TextInput,
-  Textarea,
 } from 'flowbite-react';
 import classes from './ProductViewDetail.module.css';
-import { ErrorMessage, Form, Formik } from 'formik';
-import * as Yup from 'yup';
 import { Product } from '../../models/product.model';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import Image from 'next/image';
 import { Rate } from 'antd';
-import Slider from 'react-slick';
-import SliderArrow from '../SliderArrow/SliderArrow';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/store/slices/cartShoppingSlice';
+import ProductCard from '../ProductCard/ProductCard';
 
-export default function ProductViewDetail({ data }: { data: Product }) {
-  console.log('ProductViewDetail: ', data);
+export default function ProductViewDetail({
+  data,
+  relatedProducts,
+}: {
+  data: Product;
+  relatedProducts: Product[];
+}) {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
 
@@ -67,79 +57,79 @@ export default function ProductViewDetail({ data }: { data: Product }) {
         <div className="text-2xl font-bold">Product detail</div>
       </div>
 
-      <Card>
-        <Suspense
-          fallback={
-            <div className="text-center">
-              <Spinner />
+      <Card className="mb-8">
+        <div className={classes.detailBody}>
+          <div className={classes.imageArea}>
+            <Carousel theme={customTheme} slide={false}>
+              {(data.imageUrls || []).map((imageUrl, index) => {
+                return (
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                    }}
+                    key={index}
+                  >
+                    <Image src={imageUrl} alt={imageUrl} quality={100} fill />
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+          <div className={classes.detailArea}>
+            <div className="text-3xl font-bold mb-4">{data.name}</div>
+            <div className="text-2xl font-bold text-red-700 mb-4">
+              ${data.price}
             </div>
-          }
-        >
-          <div className={classes.detailBody}>
-            <div className={classes.imageArea}>
-              <Carousel theme={customTheme} slide={false}>
-                {(data.imageUrls || []).map((imageUrl, index) => {
-                  return (
-                    <div
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                      }}
-                      key={index}
-                    >
-                      <Image src={imageUrl} alt={imageUrl} quality={100} fill />
-                    </div>
-                  );
-                })}
-              </Carousel>
+            <div className="flex mb-4">
+              <Rate
+                disabled
+                defaultValue={0}
+                allowHalf
+                value={
+                  data.rate?.averageValue || Math.floor(Math.random() * 5) + 1
+                }
+              />
+              <p className="ml-2">
+                ({data.rate?.rateCount || Math.floor(Math.random() * 9999) + 1}{' '}
+                Ratings)
+              </p>
             </div>
-            <div className={classes.detailArea}>
-              <div className="text-3xl font-bold mb-4">{data.name}</div>
-              <div className="text-2xl font-bold text-red-700 mb-4">
-                ${data.price}
-              </div>
-              <div className="flex mb-4">
-                <Rate
-                  disabled
-                  defaultValue={0}
-                  allowHalf
-                  value={
-                    data.rate?.averageValue || Math.floor(Math.random() * 5) + 1
-                  }
-                />
-                <p className="ml-2">
-                  (
-                  {data.rate?.rateCount || Math.floor(Math.random() * 9999) + 1}{' '}
-                  Ratings)
-                </p>
-              </div>
-              <div className="mb-4">{data.description}</div>
-              <div className="flex mb-4">
-                <div className="mr-2 font-bold">Categories:</div>
-                <div>{data.category?.name}</div>
-              </div>
-              <div className="flex">
-                <TextInput
-                  className="w-16 mr-2"
-                  id="quantity"
-                  type="number"
-                  min={1}
-                  value={quantity}
-                  onChange={(event) => setQuantity(Number(event.target.value))}
-                />
+            <div className="mb-4">{data.description}</div>
+            <div className="flex mb-4">
+              <div className="mr-2 font-bold">Categories:</div>
+              <div>{data.category?.name}</div>
+            </div>
+            <div className="flex">
+              <TextInput
+                className="w-16 mr-2"
+                id="quantity"
+                type="number"
+                min={1}
+                value={quantity}
+                onChange={(event) => setQuantity(Number(event.target.value))}
+              />
 
-                <Button
-                  color="failure"
-                  onClick={() => addCartProductHandler()}
-                  className="w-max"
-                >
-                  Add to cart
-                </Button>
-              </div>
+              <Button
+                color="failure"
+                onClick={() => addCartProductHandler()}
+                className="w-max"
+              >
+                Add to cart
+              </Button>
             </div>
           </div>
-        </Suspense>
+        </div>
       </Card>
+
+      <div className="flex mb-4 items-center">
+        <h5 className="text-2xl font-bold mr-2">Related products</h5>
+      </div>
+      <div className={classes.relatedProductsSection}>
+        {(relatedProducts || []).map((product, index) => {
+          return <ProductCard product={product} key={index}></ProductCard>;
+        })}
+      </div>
     </Fragment>
   );
 }

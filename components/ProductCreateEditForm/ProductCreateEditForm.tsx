@@ -130,15 +130,15 @@ export default function ProductCreateEditForm({
 
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="imageUrl" value="Image url" />
+                    <Label htmlFor="imageUrls" value="Image urls" />
                   </div>
-                  <TextInput
-                    id="imageUrl"
-                    type="text"
-                    placeholder="imageUrl"
+                  <Textarea
+                    id="imageUrls"
+                    placeholder="imageUrl-1, imageUrl-2, ..."
                     value={formik.values.imageUrls}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    rows={4}
                   />
                 </div>
 

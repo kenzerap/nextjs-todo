@@ -1,4 +1,3 @@
-import ProductCreateEditForm from '@/components/ProductCreateEditForm/ProductCreateEditForm';
 import ProductViewDetail from '@/components/ProductViewDetail/ProductViewDetail';
 import { Product } from '@/models/product.model';
 import { apiUrl } from '@/utils/constants';
@@ -26,12 +25,50 @@ async function fetchProductById(productId: string) {
   return data;
 }
 
+async function fetchRelatedProducts(categoryCode: string) {
+  const params = new URLSearchParams({
+    categoryCode: categoryCode,
+    searchBy: 'name',
+    search: '',
+    page: '1',
+    itemPerPage: '10',
+    orderBy: 'name',
+    orderByDirection: 'asc',
+  }).toString();
+  const response = await fetch(`${apiUrl}/product/list?${params}`, {
+    next: { revalidate: 0 },
+  });
+
+  const { data } = await response.json();
+  const dummyRateData = data.map((item: any) => {
+    return item.rate
+      ? item
+      : {
+          ...item,
+          rate: {
+            averageValue: Math.floor(Math.random() * 5) + 1,
+            rateCount: Math.floor(Math.random() * 9999) + 1,
+          },
+        };
+  });
+
+  return dummyRateData;
+}
+
 export default async function ProductViewPage({
   params,
 }: {
   params: { productId: string };
 }) {
   const item: Product = await fetchProductById(params.productId);
+  const relatedProducts: Product[] = await fetchRelatedProducts(
+    item.category?.code || ''
+  );
 
-  return <ProductViewDetail data={item}></ProductViewDetail>;
+  return (
+    <ProductViewDetail
+      data={item}
+      relatedProducts={relatedProducts}
+    ></ProductViewDetail>
+  );
 }
