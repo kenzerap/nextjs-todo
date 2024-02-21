@@ -5,34 +5,36 @@ import classes from './ProductCard.module.scss';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Card, Rate } from 'antd';
-import { BestProduct } from '@/models/product.model';
-
-const { Meta } = Card;
+import { Product } from '@/models/product.model';
 
 const ProductCard: React.FC<{
-  product: BestProduct;
+  product: Product;
 }> = (props) => {
   const [isHover, setIsHover] = useState(false);
   const router = useRouter();
 
   const navigateToProducts = () => {
-    router.push('/products');
+    router.push(`/products/${props.product.id}/view`);
   };
 
   return (
     <Card
       hoverable
-      style={{ width: 300 }}
+      className={classes.cardShadow}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
       onClick={navigateToProducts}
       cover={
         <Image
           alt={
-            !isHover ? props.product.imageShowUrl : props.product.imageHoverUrl
+            !isHover
+              ? props.product.imageUrls?.[0] || ''
+              : props.product.imageUrls?.[1] || ''
           }
           src={
-            !isHover ? props.product.imageShowUrl : props.product.imageHoverUrl
+            !isHover
+              ? props.product.imageUrls?.[0] || ''
+              : props.product.imageUrls?.[1] || ''
           }
           width={300}
           height={400}
@@ -53,9 +55,9 @@ const ProductCard: React.FC<{
           disabled
           defaultValue={0}
           allowHalf
-          value={props.product.rate.averageValue}
+          value={props.product.rate?.averageValue}
         />
-        <p className="ml-2">({props.product.rate.rateCount})</p>
+        <p className="ml-2">({props.product.rate?.rateCount})</p>
       </div>
       <div className="mt-4 font-bold text-red-700">${props.product.price}</div>
     </Card>

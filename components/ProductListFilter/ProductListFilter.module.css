@@ -3,13 +3,30 @@
 }
 
 .filterRow {
-  display: flex;
+  display: grid;
   align-items: center;
+  grid-template-columns: minmax(12rem, 100%) auto;
+  column-gap: 1rem;
   justify-content: space-between;
 }
 
 .filterRight {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
   column-gap: 1rem;
+  row-gap: 1rem;
+  min-width: 40rem;
+}
+
+@media screen and (max-width: 1000px) {
+  .filterRow {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 1rem;
+    justify-content: unset;
+  }
+
+  .filterRight {
+    min-width: unset;
+  }
 }

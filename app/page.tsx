@@ -2,7 +2,7 @@
 
 import HeaderBar from '@/components/HeaderBar/HeaderBar';
 import Image from 'next/image';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import classes from './Home.module.css';
 import { Button } from 'antd';
 import Link from 'next/link';
@@ -25,15 +25,6 @@ export default function Home() {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 2,
-    nextArrow: <SliderArrow isLeftArrow={false} />,
-    prevArrow: <SliderArrow isLeftArrow={true} />,
-  };
-
-  const bestSellerSliderSettings = {
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
     nextArrow: <SliderArrow isLeftArrow={false} />,
     prevArrow: <SliderArrow isLeftArrow={true} />,
   };

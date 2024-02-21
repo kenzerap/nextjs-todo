@@ -9,15 +9,7 @@ export interface Product {
   category?: Category;
   soldCount: number;
   discountPercentage: number;
-}
-
-export interface BestProduct {
-  imageShowUrl: string;
-  imageHoverUrl: string;
-  rate: { averageValue: number; rateCount: number };
-  price: number;
-  name: string;
-  description: string;
+  rate?: { averageValue: number; rateCount: number };
 }
 
 export interface ProductFilterOptions {

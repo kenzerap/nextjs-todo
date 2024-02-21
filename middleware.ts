@@ -1,7 +1,15 @@
 import { withAuth } from 'next-auth/middleware';
 import { User } from './models/user.model';
 
-const publicPath = ['/login', '/signup', '/products', '/', '/api/users/signup', '/cart', '/checkout'];
+const publicPath = [
+  '/login',
+  '/signup',
+  '/products',
+  '/',
+  '/api/users/signup',
+  '/cart',
+  '/checkout',
+];
 
 const adminPath = ['/users'];
 
@@ -17,7 +25,11 @@ export default withAuth(
       authorized: ({ token, req }) => {
         const path = req.nextUrl.pathname;
 
-        if (publicPath.includes(path) || path.includes('/api/')) {
+        if (
+          publicPath.includes(path) ||
+          path.includes('/api/') ||
+          (path.includes('/products') && path.includes('/view'))
+        ) {
           return true;
         }
 

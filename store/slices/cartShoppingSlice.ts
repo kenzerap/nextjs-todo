@@ -27,12 +27,18 @@ export const cartShoppingSlice = createSlice({
       state.entities = cartStorage.entities || {};
       state.itemCount = cartStorage.itemCount || 0;
     },
-    addToCart: (state: CartState, action: PayloadAction<{ item: Product }>) => {
+    addToCart: (
+      state: CartState,
+      action: PayloadAction<{ item: Product; quantity?: number }>
+    ) => {
       const entity = state.entities[action.payload.item.id];
       state.entities[action.payload.item.id] = entity
-        ? { ...entity, quantity: entity.quantity + 1 }
-        : { ...action.payload.item, quantity: 1 };
-      state.itemCount++;
+        ? {
+            ...entity,
+            quantity: entity.quantity + (action.payload.quantity || 1),
+          }
+        : { ...action.payload.item, quantity: action.payload.quantity || 1 };
+      state.itemCount += action.payload.quantity || 1;
 
       updateCartStorate(state);
     },

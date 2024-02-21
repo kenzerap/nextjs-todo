@@ -14,6 +14,7 @@ import { addToCart } from '@/store/slices/cartShoppingSlice';
 import DeleteProductModal from '../DeleteProductModal/DeleteProductModal';
 import ProductListFilter from '../ProductListFilter/ProductListFilter';
 import { Category } from '@/models/category.model';
+import ProductCard from '../ProductCard/ProductCard';
 
 export default function ProductList({
   products,
@@ -69,7 +70,7 @@ export default function ProductList({
   const adminAdtions = (product: Product) => (
     <>
       <Link
-        href={`/products/${product.id}`}
+        href={`/products/${product.id}/edit`}
         className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
       >
         Edit
@@ -131,56 +132,73 @@ export default function ProductList({
         ></ProductListFilter>
       </div>
 
-      <Card className="overflow-x-auto">
-        {productsLoading ? (
-          <div className="text-center">
-            <Spinner aria-label="loading" />
-          </div>
+      {isAdmin && (
+        <Card className="overflow-x-auto">
+          {productsLoading ? (
+            <div className="text-center">
+              <Spinner aria-label="loading" />
+            </div>
+          ) : (
+            <Table hoverable>
+              <Table.Head>
+                <Table.HeadCell>Name</Table.HeadCell>
+                <Table.HeadCell>Price</Table.HeadCell>
+                <Table.HeadCell>Image</Table.HeadCell>
+                <Table.HeadCell>Description</Table.HeadCell>
+                <Table.HeadCell>
+                  <span className="sr-only">Edit</span>
+                </Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {(productList || []).map((product) => {
+                  return (
+                    <Table.Row
+                      className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                      key={product.id}
+                    >
+                      <Table.Cell className="font-medium text-gray-900 dark:text-white text-2xl">
+                        {product.name}
+                      </Table.Cell>
+                      <Table.Cell className="text-green-500 font-bold text-xl">
+                        {product.price}$
+                      </Table.Cell>
+                      <Table.Cell>
+                        <div className="w-60 h-60 relative">
+                          <Image
+                            src={product.imageUrls?.[0] || ''}
+                            alt={product.imageUrls?.[0] || ''}
+                            quality={100}
+                            fill
+                          />
+                        </div>
+                      </Table.Cell>
+                      <Table.Cell>{product.description}</Table.Cell>
+                      <Table.Cell>
+                        {isAdmin ? adminAdtions(product) : userAdtions(product)}
+                      </Table.Cell>
+                    </Table.Row>
+                  );
+                })}
+              </Table.Body>
+            </Table>
+          )}
+        </Card>
+      )}
+
+      {!isAdmin &&
+        (productsLoading ? (
+          <Card>
+            <div className="text-center">
+              <Spinner aria-label="loading" />
+            </div>
+          </Card>
         ) : (
-          <Table hoverable>
-            <Table.Head>
-              <Table.HeadCell>Name</Table.HeadCell>
-              <Table.HeadCell>Price</Table.HeadCell>
-              <Table.HeadCell>Image</Table.HeadCell>
-              <Table.HeadCell>Description</Table.HeadCell>
-              <Table.HeadCell>
-                <span className="sr-only">Edit</span>
-              </Table.HeadCell>
-            </Table.Head>
-            <Table.Body className="divide-y">
-              {(productList || []).map((product) => {
-                return (
-                  <Table.Row
-                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                    key={product.id}
-                  >
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white text-2xl">
-                      {product.name}
-                    </Table.Cell>
-                    <Table.Cell className="text-green-500 font-bold text-xl">
-                      {product.price}$
-                    </Table.Cell>
-                    <Table.Cell>
-                      <div className="w-60 h-60 relative">
-                        <Image
-                          src={product.imageUrls?.[0] || ''}
-                          alt={product.imageUrls?.[0] || ''}
-                          quality={100}
-                          fill
-                        />
-                      </div>
-                    </Table.Cell>
-                    <Table.Cell>{product.description}</Table.Cell>
-                    <Table.Cell>
-                      {isAdmin ? adminAdtions(product) : userAdtions(product)}
-                    </Table.Cell>
-                  </Table.Row>
-                );
-              })}
-            </Table.Body>
-          </Table>
-        )}
-      </Card>
+          <div className={classes.productsCardData}>
+            {productList.map((product, index) => {
+              return <ProductCard product={product} key={index}></ProductCard>;
+            })}
+          </div>
+        ))}
 
       <DeleteProductModal
         isShowDeleteModal={isShowDeleteModal}

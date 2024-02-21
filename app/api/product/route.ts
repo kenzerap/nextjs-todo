@@ -32,7 +32,18 @@ export async function GET(request: NextRequest) {
   const data = await response.json();
 
   if (response.ok) {
-    return NextResponse.json(data);
+    const dummyRateData = data.data.map((item: any) => {
+      return item.rate
+        ? item
+        : {
+            ...item,
+            rate: {
+              averageValue: Math.floor(Math.random() * 5) + 1,
+              rateCount: Math.floor(Math.random() * 9999) + 1,
+            },
+          };
+    });
+    return NextResponse.json({ ...data, data: dummyRateData });
   }
 
   return NextResponse.json(data, { status: response.status });

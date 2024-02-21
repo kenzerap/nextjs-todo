@@ -1,0 +1,11 @@
+.detailBody {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  column-gap: 1rem;
+  row-gap: 1rem;
+}
+
+.imageArea {
+  width: 100%;
+  min-height: 30rem;
+}
