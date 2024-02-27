@@ -1,8 +1,7 @@
 'use client';
 
 import HeaderBar from '@/components/HeaderBar/HeaderBar';
-import Image from 'next/image';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment } from 'react';
 import classes from './Home.module.css';
 import { Button } from 'antd';
 import Link from 'next/link';

@@ -1,7 +1,7 @@
 import { configureStore, createSelector } from '@reduxjs/toolkit';
 import { cartShoppingReducer } from './slices/cartShoppingSlice';
 
-export const makeStore = () => {
+export const setupStore = () => {
   return configureStore({
     reducer: {
       cartShopping: cartShoppingReducer,
@@ -9,7 +9,7 @@ export const makeStore = () => {
   });
 };
 
-export type AppStore = ReturnType<typeof makeStore>;
+export type AppStore = ReturnType<typeof setupStore>;
 export type RootState = ReturnType<AppStore['getState']>;
 export type AppDispatch = AppStore['dispatch'];
 
